@@ -1,15 +1,24 @@
-import json
-  
 try:
-    with open("data.json", "r", encoding="utf-8") as file:
-        json_data = json.loads(file.read())
-        print(json_data)
-    output = ','.join([*json_data[0]])
-    print(output)
-    for obj in json_data:
-        output += f'\n{obj["name"]}, {obj["age"]}, {obj["profession"]}, {obj["city"]}'
-    with open("data.txt", "w") as f:
-        f.write(output)
-        print('OUTPUT', output)
+    with open("purchase_log.txt", "r", encoding="utf-8", errors= None) as file:
+        dict_file = {}
+
+        for line in file:
+            data = line
+            print(line)
+            data = data.rstrip().lstrip('{').rstrip('}')
+            data_pair = data.split(",")
+            left_pair = data_pair[0].split(":")
+            key_left_pair = left_pair[0].lstrip('"').rstrip('"')
+            value_left_pair = left_pair[1].lstrip(' "').rstrip('"')
+
+            data = data.rstrip().lstrip('{').rstrip('}')
+            right_pair = data_pair[1].split(":")
+            key_right_pair = right_pair[0].lstrip(' "').rstrip('"')
+            value_right_pair = right_pair[1].lstrip(' "').rstrip('"')
+            dict_file.update({value_left_pair: value_right_pair})
+
+        print("dict_file")
+        print(dict_file)
+
 except Exception as ex:
-    print(f'Error {str(ex)}')
+    print('Error')
